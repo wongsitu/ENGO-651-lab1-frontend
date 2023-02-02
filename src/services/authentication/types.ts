@@ -18,7 +18,7 @@ export type GetCSRFTokenResponse = z.infer<typeof GetCSRFTokenSchema>;
 export type LogoutReponse = z.infer<typeof LogoutSchema>;
 
 export type LoginPayload = {
-  email: string;
+  username: string;
   password: string;
 };
 

@@ -12,21 +12,21 @@ const Login = () => {
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      email: '',
+      username: '',
       password: '',
     },
   });
   const { login } = useAuthContext();
   const [showPassword, setShowPassword] = useState(false);
   const onSubmit = ({
-    email,
+    username,
     password,
   }: {
-    email: string;
+    username: string;
     password: string;
   }) => {
     login({
-      email,
+      username,
       password,
     });
   };
@@ -41,26 +41,23 @@ const Login = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="email"
+            htmlFor="username"
           >
-            Email
+            Username
             <input
-              {...register('email', {
-                required: 'Email is required',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Invalid email address',
-                },
+              {...register('username', {
+                required: true,
               })}
               className={`border border-gray-400 p-2 rounded w-full ${
-                errors.root?.email ? 'border-red-500' : ''
+                errors.root?.username ? 'border-red-500' : ''
               }`}
-              type="email"
-              name="email"
+              type="username"
+              name="username"
+              autoComplete="username"
             />
-            {errors.root?.email.message && (
+            {errors.root?.username.message && (
               <p className="text-red-500 text-xs italic">
-                {errors.root?.email.message}
+                {errors.root?.username.message}
               </p>
             )}
           </label>
@@ -85,6 +82,7 @@ const Login = () => {
                 }`}
                 type={showPassword ? 'text' : 'password'}
                 name="password"
+                autoComplete="current-password"
               />
               <button
                 type="button"

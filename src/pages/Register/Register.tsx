@@ -57,6 +57,7 @@ const Register = () => {
               }`}
               type="username"
               name="username"
+              autoComplete="username"
             />
             {errors.root?.username.message && (
               <p className="text-red-500 text-xs italic">
@@ -84,6 +85,7 @@ const Register = () => {
               }`}
               type="email"
               name="email"
+              autoComplete="email"
             />
             {errors.root?.email.message && (
               <p className="text-red-500 text-xs italic">
@@ -112,6 +114,7 @@ const Register = () => {
                 }`}
                 type={showPassword ? 'text' : 'password'}
                 name="password"
+                autoComplete="new-password"
               />
               <button
                 type="button"

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useCSRFToken } from '../services/authentication';
 
 const CSRFToken = () => {
-  const [CSRFToken, setCSRFToken] = useState<string | undefined>(undefined);
+  const [CSRFToken, setCSRFToken] = useState<string>('');
 
   useCSRFToken();
 
@@ -15,7 +15,14 @@ const CSRFToken = () => {
     }
   }, []);
 
-  return <input type="hidden" name="csrfmiddlewaretoken" value={CSRFToken} />;
+  return (
+    <input
+      type="hidden"
+      name="csrfmiddlewaretoken"
+      value={CSRFToken}
+      readOnly
+    />
+  );
 };
 
 export default CSRFToken;

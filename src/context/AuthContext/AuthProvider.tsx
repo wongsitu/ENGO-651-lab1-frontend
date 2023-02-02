@@ -38,8 +38,6 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     if (status !== 'loading') {
       if (user) {
         navigate('/home');
-      } else {
-        navigate('/login');
       }
     }
   }, [navigate, status, user]);

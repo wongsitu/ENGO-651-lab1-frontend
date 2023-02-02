@@ -1,15 +1,11 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  // redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { QueryClientProvider } from 'react-query';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import queryClient from './services/queryClient';
 import { AuthProvider } from './context/AuthContext/AuthProvider';
+import Navbar from './components/Navbar';
 import Home from './pages/Home';
 
 function App() {
@@ -17,6 +13,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Router>
         <AuthProvider>
+          <Navbar />
           <Routes>
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
