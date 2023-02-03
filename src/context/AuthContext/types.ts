@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { UseMutateAsyncFunction } from 'react-query';
+import { QueryStatus, UseMutateAsyncFunction } from 'react-query';
 import {
   LoginPayload,
   CurrentUserReponse,
@@ -25,4 +25,5 @@ export type AuthContextType = {
     void,
     unknown
   >;
+  status: QueryStatus;
 };

@@ -11,9 +11,11 @@ import { AuthContext } from './AuthContext';
 
 export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const navigate = useNavigate();
+  const { user, status, refetch } = useCurrentUser();
   const { mutateAsync: logout } = useLogout({
     onSuccess: (data) => {
       if (data.success) {
+        refetch();
         navigate('/login');
       }
     },
@@ -21,30 +23,23 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const { mutateAsync: login } = useLogin({
     onSuccess: (data) => {
       if (data.success) {
-        navigate('/home');
+        refetch();
+        navigate('/books');
       }
     },
   });
   const { mutateAsync: register } = useRegister({
     onSuccess: (data) => {
       if (data.success) {
-        navigate('/home');
+        refetch();
+        navigate('/books');
       }
     },
   });
-  const { user, status } = useCurrentUser();
-
-  useEffect(() => {
-    if (status !== 'loading') {
-      if (user) {
-        navigate('/home');
-      }
-    }
-  }, [navigate, status, user]);
 
   const value = useMemo(
-    () => ({ user, login, register, logout }),
-    [login, logout, register, user],
+    () => ({ user, login, register, logout, status }),
+    [login, logout, register, status, user],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

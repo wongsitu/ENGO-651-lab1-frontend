@@ -9,7 +9,9 @@ const Navbar = () => {
         <h1 className="text-white font-medium text-xl">Library App</h1>
         {user && (
           <div className="flex items-center">
-            <p className="text-white font-medium">logged as: {user?.email}</p>
+            <p className="text-white font-medium">
+              logged as: {user?.username}
+            </p>
             <button type="button" className="px-5" onClick={() => logout()}>
               <p className="text-red-600 font-medium">Logout</p>
             </button>
