@@ -24,6 +24,7 @@ const BookDetail = () => {
   });
   const { reviews, refetch, status, hasNextPage, fetchNextPage } = useReviews({
     book: id,
+    keepPreviousData: true,
   });
   const { mutateAsync: createReview } = useCreateReview({
     onSuccess: (response) => {

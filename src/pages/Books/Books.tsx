@@ -10,6 +10,7 @@ const Books = () => {
   const searchKey = useDebounce(searchTerm);
   const { books, status, hasNextPage, fetchNextPage } = useBooks({
     search: searchKey,
+    keepPreviousData: true,
   });
 
   const [ref] = useInfiniteScroll({
