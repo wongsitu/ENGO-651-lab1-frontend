@@ -1,7 +1,8 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import PrivateRoute from '../../components/PrivateRoute';
+import ArrowLeft from '../../icons/ArrowLeft';
 import { useBookDetail } from '../../services/books';
 import { useCreateReview, useReviews } from '../../services/reviews';
 import { format } from '../../utils/format';
@@ -53,11 +54,49 @@ const BookDetail = () => {
     });
   };
 
+  const renderReviewList = () => {
+    if (status === 'loading') return null;
+    if (reviews.length === 0) {
+      return (
+        <div className="max-h-96 overflow-auto mb-4 flex justify-center items-center">
+          <p className="block text-gray-400 font-medium mb-2">No reviews</p>
+        </div>
+      );
+    }
+    return (
+      <div className="max-h-96 overflow-auto mb-4">
+        {reviews.map((review) => (
+          <div
+            key={review.id}
+            className="rounded-md shadow-xl bg-gray-700 p-3 mb-3"
+          >
+            <p className="text-xl mb-2 text-gray-400">{review.title}</p>
+            <p className="text-sm text-gray-400">{review.description}</p>
+            <div className="flex justify-end">
+              <p className="text-sm text-gray-400">
+                Posted: {format(review.createdAt, 'DD-MM-YYYY, HH:mm')} by{' '}
+                {review.user.username}
+              </p>
+            </div>
+          </div>
+        ))}
+        {hasNextPage && <div className="w-full" ref={ref} />}
+      </div>
+    );
+  };
+
   return (
     <PrivateRoute>
       <div className="flex items-center justify-center min-h-screen bg-gray-700">
         <div className="container grid grid-cols-2">
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center relative">
+            <Link
+              to="/books"
+              className="flex items-center absolute top-0 left-0"
+            >
+              <ArrowLeft className="mr-2" color="#FFFF" />
+              <span className="block text-white font-medium">Go back</span>
+            </Link>
             <h1 className="text-3xl font-bold mb-2 text-white">
               {data?.title}
             </h1>
@@ -73,24 +112,7 @@ const BookDetail = () => {
           </div>
           <div className="p-6 rounded-lg shadow-xl bg-gray-900">
             <h1 className="text-white font-medium text-xl mb-3">Reviews</h1>
-            <div className="max-h-96 overflow-auto mb-4">
-              {reviews.map((review) => (
-                <div
-                  key={review.id}
-                  className="rounded-md shadow-xl bg-gray-700 p-3 mb-3"
-                >
-                  <p className="text-xl mb-2 text-gray-400">{review.title}</p>
-                  <p className="text-sm text-gray-400">{review.description}</p>
-                  <div className="flex justify-end">
-                    <p className="text-sm text-gray-400">
-                      Posted: {format(review.createdAt, 'DD-MM-YYYY, HH:mm')} by{' '}
-                      {review.user.username}
-                    </p>
-                  </div>
-                </div>
-              ))}
-              {hasNextPage && <div className="w-full" ref={ref} />}
-            </div>
+            {renderReviewList()}
             <h1 className="text-white font-medium text-xl mb-3">
               Enter your review
             </h1>
@@ -135,7 +157,7 @@ const BookDetail = () => {
               </label>
               <button
                 type="submit"
-                className="text-gray-600 hover:text-gray-800 font-medium py-2 px-2 border border-gray-400 rounded w-full"
+                className="text-gray-400 font-medium py-2 px-2 border border-gray-400 rounded w-full"
               >
                 Submit
               </button>
