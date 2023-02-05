@@ -1,6 +1,12 @@
-import { useInfiniteQuery } from 'react-query';
-import { getBooks } from './requests';
-import { BookResponse, BooksVariableOptions } from './types';
+import { AxiosError } from 'axios';
+import { useInfiniteQuery, useQuery } from 'react-query';
+import { getBook, getBooks } from './requests';
+import {
+  PaginatedBookResponse,
+  BooksVariableOptions,
+  BookVariables,
+  BookResponse,
+} from './types';
 
 export const useBooks = ({
   search,
@@ -12,7 +18,7 @@ export const useBooks = ({
   ...ops
 }: BooksVariableOptions = {}) => {
   const { data, status, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useInfiniteQuery<BookResponse>(
+    useInfiniteQuery<PaginatedBookResponse>(
       ['getBooks', { id, search, isbn, year, title, author }],
       getBooks,
       {
@@ -31,4 +37,16 @@ export const useBooks = ({
     isFetchingNextPage,
     fetchNextPage,
   };
+};
+
+export const useBookDetail = ({ bookId, ...opts }: BookVariables = {}) => {
+  const { status, refetch, data } = useQuery<BookResponse, AxiosError>(
+    ['getBook', { bookId }],
+    getBook,
+    {
+      ...opts,
+    },
+  );
+
+  return { status, refetch, data };
 };

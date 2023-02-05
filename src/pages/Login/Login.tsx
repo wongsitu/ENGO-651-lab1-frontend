@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import CSRFToken from '../../components/CSFRToken';
 import { useAuthContext } from '../../context/AuthContext';
 
@@ -16,7 +16,7 @@ const Login = () => {
       password: '',
     },
   });
-  const { login } = useAuthContext();
+  const { login, user } = useAuthContext();
   const [showPassword, setShowPassword] = useState(false);
   const onSubmit = ({
     username,
@@ -31,8 +31,12 @@ const Login = () => {
     });
   };
 
+  if (user) {
+    return <Navigate to="books" replace />;
+  }
+
   return (
-    <div className="flex items-center justify-center h-screen bg-stone-700">
+    <div className="flex items-center justify-center h-screen bg-gray-700">
       <form
         className="bg-white p-6 rounded-lg shadow-xl"
         onSubmit={handleSubmit(onSubmit)}

@@ -16,23 +16,28 @@ export const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     onSuccess: (data) => {
       if (data.success) {
         refetch();
-        navigate('/login');
       }
     },
   });
   const { mutateAsync: login } = useLogin({
     onSuccess: (data) => {
       if (data.success) {
-        refetch();
-        navigate('/books');
+        refetch().then((response) => {
+          if (response.data?.success) {
+            navigate('/books');
+          }
+        });
       }
     },
   });
   const { mutateAsync: register } = useRegister({
     onSuccess: (data) => {
       if (data.success) {
-        refetch();
-        navigate('/books');
+        refetch().then((response) => {
+          if (response.data?.success) {
+            navigate('/books');
+          }
+        });
       }
     },
   });

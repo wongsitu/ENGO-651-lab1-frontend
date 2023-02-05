@@ -1,16 +1,23 @@
-import { QueryKey, UseInfiniteQueryOptions } from 'react-query';
+import { AxiosError } from 'axios';
+import {
+  QueryKey,
+  UseInfiniteQueryOptions,
+  UseQueryOptions,
+} from 'react-query';
 import { z } from 'zod';
-import { BookSchema } from './schema';
+import { BookSchema, PaginatedBookSchema } from './schema';
+
+export type PaginatedBookResponse = z.infer<typeof PaginatedBookSchema>;
 
 export type BookResponse = z.infer<typeof BookSchema>;
 
 export interface BooksVariableOptions
   extends Omit<
     UseInfiniteQueryOptions<
-      BookResponse,
+      PaginatedBookResponse,
       unknown,
-      BookResponse,
-      BookResponse,
+      PaginatedBookResponse,
+      PaginatedBookResponse,
       QueryKey
     >,
     'queryKey' | 'queryFn' | 'getNextPageParam' | 'getPreviousPageParam'
@@ -21,4 +28,12 @@ export interface BooksVariableOptions
   author?: string;
   year?: string;
   id?: number;
+}
+
+export interface BookVariables
+  extends Omit<
+    UseQueryOptions<BookResponse, AxiosError, BookResponse, QueryKey>,
+    'queryFn'
+  > {
+  bookId?: string;
 }
