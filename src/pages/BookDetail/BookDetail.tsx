@@ -125,17 +125,20 @@ const BookDetail = () => {
                 Title
                 <input
                   {...register('title', {
-                    required: true,
+                    required: {
+                      value: true,
+                      message: 'This field is required',
+                    },
                   })}
                   className={`border border-gray-400 p-2 rounded w-full ${
-                    errors.root?.username ? 'border-red-500' : ''
+                    errors?.title?.message ? 'border-red-500' : ''
                   }`}
                   type="title"
                   name="title"
                 />
-                {errors.root?.title.message && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.root?.title.message}
+                {errors?.title?.message && (
+                  <p className="text-red-500 text-xs italic mt-2">
+                    {errors?.title.message}
                   </p>
                 )}
               </label>
@@ -146,13 +149,13 @@ const BookDetail = () => {
                     required: false,
                   })}
                   className={`border border-gray-400 p-2 rounded w-full ${
-                    errors.root?.username ? 'border-red-500' : ''
+                    errors?.description?.message ? 'border-red-500' : ''
                   }`}
                   name="description"
                 />
-                {errors.root?.description.message && (
-                  <p className="text-red-500 text-xs italic">
-                    {errors.root?.description.message}
+                {errors?.description?.message && (
+                  <p className="text-red-500 text-xs italic mt-2">
+                    {errors?.description.message}
                   </p>
                 )}
               </label>

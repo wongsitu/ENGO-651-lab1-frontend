@@ -89,7 +89,9 @@ const Books = () => {
                 </div>
               ) : (
                 <div className="flex justify-center items-center h-full">
-                  No results
+                  <p className="block text-gray-400 font-medium mb-2">
+                    No results
+                  </p>
                 </div>
               )}
             </div>

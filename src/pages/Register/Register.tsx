@@ -57,15 +57,15 @@ const Register = () => {
                 required: 'Username is required',
               })}
               className={`border border-gray-400 p-2 rounded w-full ${
-                errors.root?.username ? 'border-red-500' : ''
+                errors?.username ? 'border-red-500' : ''
               }`}
               type="username"
               name="username"
               autoComplete="username"
             />
-            {errors.root?.username.message && (
-              <p className="text-red-500 text-xs italic">
-                {errors.root?.username.message}
+            {errors?.username?.message && (
+              <p className="text-red-500 text-xs italic mt-2">
+                {errors?.username.message}
               </p>
             )}
           </label>
@@ -85,15 +85,15 @@ const Register = () => {
                 },
               })}
               className={`border border-gray-400 p-2 rounded w-full ${
-                errors.root?.email ? 'border-red-500' : ''
+                errors?.email ? 'border-red-500' : ''
               }`}
               type="email"
               name="email"
               autoComplete="email"
             />
-            {errors.root?.email.message && (
-              <p className="text-red-500 text-xs italic">
-                {errors.root?.email.message}
+            {errors?.email?.message && (
+              <p className="text-red-500 text-xs italic mt-2">
+                {errors?.email.message}
               </p>
             )}
           </label>
@@ -114,7 +114,7 @@ const Register = () => {
                   },
                 })}
                 className={`border border-gray-400 p-2 rounded w-full ${
-                  errors.root?.password ? 'border-red-500' : ''
+                  errors?.password ? 'border-red-500' : ''
                 }`}
                 type={showPassword ? 'text' : 'password'}
                 name="password"
@@ -128,9 +128,9 @@ const Register = () => {
                 {showPassword ? 'Hide' : ' Show'}
               </button>
             </div>
-            {errors.root?.password.message && (
-              <p className="text-red-500 text-xs italic">
-                {errors.root?.password.message}
+            {errors?.password?.message && (
+              <p className="text-red-500 text-xs italic mt-2">
+                {errors?.password.message}
               </p>
             )}
           </label>

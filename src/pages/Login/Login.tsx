@@ -50,18 +50,21 @@ const Login = () => {
             Username
             <input
               {...register('username', {
-                required: true,
+                required: {
+                  value: true,
+                  message: 'This field is required',
+                },
               })}
               className={`border border-gray-400 p-2 rounded w-full ${
-                errors.root?.username ? 'border-red-500' : ''
+                errors?.username ? 'border-red-500' : ''
               }`}
               type="username"
               name="username"
               autoComplete="username"
             />
-            {errors.root?.username.message && (
-              <p className="text-red-500 text-xs italic">
-                {errors.root?.username.message}
+            {errors?.username?.message && (
+              <p className="text-red-500 text-xs italic mt-2">
+                {errors?.username.message}
               </p>
             )}
           </label>
@@ -75,14 +78,13 @@ const Login = () => {
             <div className="flex items-center">
               <input
                 {...register('password', {
-                  required: true,
-                  minLength: {
-                    value: 8,
-                    message: 'Password must have at least 8 characters',
+                  required: {
+                    value: true,
+                    message: 'This field is required',
                   },
                 })}
                 className={`border border-gray-400 p-2 rounded w-full ${
-                  errors.root?.password ? 'border-red-500' : ''
+                  errors?.password ? 'border-red-500' : ''
                 }`}
                 type={showPassword ? 'text' : 'password'}
                 name="password"
@@ -96,9 +98,9 @@ const Login = () => {
                 {showPassword ? 'Hide' : ' Show'}
               </button>
             </div>
-            {errors.root?.password.message && (
-              <p className="text-red-500 text-xs italic">
-                {errors.root?.password.message}
+            {errors?.password?.message && (
+              <p className="text-red-500 text-xs italic mt-2">
+                {errors?.password.message}
               </p>
             )}
           </label>
