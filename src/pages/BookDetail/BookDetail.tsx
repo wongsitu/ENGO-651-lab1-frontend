@@ -15,6 +15,7 @@ const BookDetail = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>({
     defaultValues: {
       title: '',
@@ -30,6 +31,7 @@ const BookDetail = () => {
     onSuccess: (response) => {
       if (response.success) {
         refetch();
+        reset();
       }
     },
   });
