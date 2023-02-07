@@ -32,8 +32,9 @@ Then in your terminal run
 ## Description
 
 Tech stack:
-Library: ReactJS
-Language: Typescript.
-Navigation react-router v6
-API requests: react-query, axios
-Styling: Tailwind and CSS
+
+- Library: ReactJS
+- Language: Typescript.
+- Navigation react-router v6
+- API requests: react-query, axios
+- Styling: Tailwind and CSS
