@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import BookDetail from './BookDetail';
 import Books from './Books';
 import Login from './Login';
+import NotFound from './NotFound';
 import Register from './Register';
 
 const Pages = () => (
@@ -10,6 +11,7 @@ const Pages = () => (
     <Route path="register" element={<Register />} />
     <Route path="books" element={<Books />} />
     <Route path="books/:id" element={<BookDetail />} />
+    <Route path="*" element={<NotFound />} />
   </Routes>
 );
 
