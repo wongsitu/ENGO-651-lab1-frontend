@@ -11,9 +11,9 @@ export const getReviews: QueryFunction<
   PaginatedReviewResponse,
   QueryKey
 > = async ({ queryKey, pageParam }) => {
-  const [, { book }] = queryKey as [unknown, { book: number }];
+  const [, { isbn }] = queryKey as [unknown, { isbn: number }];
 
-  return API.get(pageParam || 'api/reviews/', { params: { book } }).then(
+  return API.get(pageParam || 'api/reviews/', { params: { isbn } }).then(
     (result) => PaginatedReviewSchema.parse(result.data),
   );
 };

@@ -10,7 +10,7 @@ import {
   ReviewVariableOptions,
 } from './types';
 
-export const useReviews = ({ book, ...ops }: ReviewVariableOptions = {}) => {
+export const useReviews = ({ isbn, ...ops }: ReviewVariableOptions = {}) => {
   const {
     data,
     status,
@@ -19,7 +19,7 @@ export const useReviews = ({ book, ...ops }: ReviewVariableOptions = {}) => {
     fetchNextPage,
     refetch,
   } = useInfiniteQuery<PaginatedReviewResponse>(
-    ['getReviews', { book }],
+    ['getReviews', { isbn }],
     getReviews,
     {
       getNextPageParam: (lastPage) => lastPage?.next ?? undefined,

@@ -20,7 +20,7 @@ export interface ReviewVariableOptions
     >,
     'queryKey' | 'queryFn' | 'getNextPageParam' | 'getPreviousPageParam'
   > {
-  book?: string;
+  isbn?: string;
 }
 
 export type CreateReviewResponse = z.infer<typeof CreateReviewSchema>;
@@ -29,7 +29,7 @@ export type CreateReviewPayload = {
   title: string;
   description?: string;
   rating?: number;
-  book?: string;
+  isbn?: string;
 };
 
 export interface CreateReviewVariables

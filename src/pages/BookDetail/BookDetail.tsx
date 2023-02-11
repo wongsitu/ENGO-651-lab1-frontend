@@ -1,7 +1,8 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { Link, useParams } from 'react-router-dom';
 import PrivateRoute from '../../components/PrivateRoute';
+import Scale from '../../components/Scale/Scale';
 import ArrowLeft from '../../icons/ArrowLeft';
 import { useBookDetail } from '../../services/books';
 import { useCreateReview, useReviews } from '../../services/reviews';
@@ -9,22 +10,23 @@ import { format } from '../../utils/format';
 import { FormData } from './types';
 
 const BookDetail = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data } = useBookDetail({ bookId: id });
+  const { isbn } = useParams<{ isbn: string }>();
+  const { data } = useBookDetail({ bookId: isbn });
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<FormData>({
     defaultValues: {
       title: '',
       description: '',
-      rating: 1,
+      rating: undefined,
     },
   });
   const { reviews, refetch, status, hasNextPage, fetchNextPage } = useReviews({
-    book: id,
+    isbn,
     keepPreviousData: true,
   });
   const { mutateAsync: createReview } = useCreateReview({
@@ -53,7 +55,7 @@ const BookDetail = () => {
       title,
       description,
       rating,
-      book: id,
+      isbn,
     });
   };
 
@@ -61,19 +63,23 @@ const BookDetail = () => {
     if (status === 'loading') return null;
     if (reviews.length === 0) {
       return (
-        <div className="max-h-96 overflow-auto mb-4 flex justify-center items-center">
+        <div className="max-h-72 overflow-auto mb-4 flex justify-center items-center">
           <p className="block text-gray-400 font-medium mb-2">No reviews</p>
         </div>
       );
     }
     return (
-      <div className="max-h-96 overflow-auto mb-4">
+      <div className="max-h-72 overflow-auto mb-4">
         {reviews.map((review) => (
           <div
             key={review.id}
-            className="rounded-md shadow-xl bg-gray-700 p-3 mb-3"
+            className="rounded-md shadow-xl bg-gray-700 p-3 mb-3 last:mb-0"
           >
-            <p className="text-xl mb-2 text-gray-400">{review.title}</p>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xl text-gray-400">{review.title}</p>
+              <Scale size={20} value={review.rating} />
+            </div>
+
             <p className="text-sm text-gray-400">{review.description}</p>
             <div className="flex justify-end">
               <p className="text-sm text-gray-400">
@@ -123,6 +129,24 @@ const BookDetail = () => {
               onSubmit={handleSubmit(onSubmit)}
               className="rounded-md shadow-xl bg-gray-700 p-3"
             >
+              <Controller
+                name="rating"
+                control={control}
+                rules={{
+                  required: { value: true, message: 'This field is required' },
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <div className="mb-2">
+                    <p className="block text-gray-400">Rating</p>
+                    <Scale size={36} value={value} setValue={onChange} />
+                    {errors?.title?.message && (
+                      <p className="text-red-500 text-xs italic mt-2">
+                        {errors?.title.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+              />
               <label className="block text-gray-400 mb-2" htmlFor="title">
                 Title
                 <input

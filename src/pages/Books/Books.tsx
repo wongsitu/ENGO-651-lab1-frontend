@@ -79,7 +79,7 @@ const Books = () => {
                           <td className="px-6 py-4">{book.author}</td>
                           <td className="px-6 py-4">{book.year}</td>
                           <td className="px-6 py-4 text-right">
-                            <Link to={`/books/${book.id}`}>View Detail</Link>
+                            <Link to={`/books/${book.isbn}`}>View Detail</Link>
                           </td>
                         </tr>
                       ))}
