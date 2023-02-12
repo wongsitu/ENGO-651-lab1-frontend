@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { Link, useParams } from 'react-router-dom';
@@ -11,13 +12,21 @@ import { FormData } from './types';
 
 const BookDetail = () => {
   const { isbn } = useParams<{ isbn: string }>();
-  const { data } = useBookDetail({ bookId: isbn });
+  const [errorCode, setErrorCode] = useState<number | undefined>(undefined);
+  const { data, status: bookDetailStatus } = useBookDetail({
+    bookId: isbn,
+    onError: ({ response }) => {
+      setErrorCode(response?.status);
+    },
+  });
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
     control,
+    setError,
+    clearErrors,
   } = useForm<FormData>({
     defaultValues: {
       title: '',
@@ -34,6 +43,12 @@ const BookDetail = () => {
       if (response.success) {
         refetch();
         reset();
+      } else {
+        const err = response.errors?.at(0);
+
+        if (err) {
+          setError('description', { message: err });
+        }
       }
     },
   });
@@ -51,6 +66,7 @@ const BookDetail = () => {
     description,
     rating,
   }) => {
+    clearErrors();
     createReview({
       title,
       description,
@@ -58,6 +74,22 @@ const BookDetail = () => {
       isbn,
     });
   };
+
+  if (bookDetailStatus === 'loading') {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-700">
+        <h1 className="text-white font-medium text-3xl">Loading...</h1>
+      </div>
+    );
+  }
+
+  if (bookDetailStatus === 'error' && errorCode) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-700">
+        <h1 className="text-white font-medium text-3xl">{errorCode} Error</h1>
+      </div>
+    );
+  }
 
   const renderReviewList = () => {
     if (status === 'loading') return null;
@@ -117,6 +149,12 @@ const BookDetail = () => {
             </p>
             <p className="block text-gray-400 font-medium mb-2">
               Year: {data?.year}
+            </p>
+            <p className="block text-gray-400 font-medium mb-2">
+              Average rating: {data?.averageRating}
+            </p>
+            <p className="block text-gray-400 font-medium mb-2">
+              Ratings count: {data?.ratingsCount}
             </p>
           </div>
           <div className="p-6 rounded-lg shadow-xl bg-gray-900">

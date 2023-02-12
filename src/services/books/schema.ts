@@ -6,6 +6,8 @@ export const BookSchema = z.object({
   title: z.string(),
   author: z.string(),
   year: z.number(),
+  ratingsCount: z.number().nullable().optional(),
+  averageRating: z.number().nullable().optional(),
 });
 
 export const PaginatedBookSchema = z.object({

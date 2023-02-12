@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { QueryFunction, QueryKey } from 'react-query';
 import API from '../api';
 import { BookSchema, PaginatedBookSchema } from './schema';

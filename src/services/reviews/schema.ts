@@ -27,4 +27,5 @@ export const PaginatedReviewSchema = z.object({
 
 export const CreateReviewSchema = z.object({
   success: z.boolean(),
+  errors: z.string().array().optional(),
 });
